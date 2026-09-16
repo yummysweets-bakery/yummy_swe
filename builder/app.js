@@ -6359,6 +6359,9 @@ const app = {
   }
 };
 
+// Expose app globally for inline event handlers immediately
+window.app = app;
+
 // Auto-run boot sequence on DOMContentLoaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => app.init());
@@ -6367,4 +6370,4 @@ if (document.readyState === 'loading') {
 }
 
 // Expose app globally for inline event handlers
-window.app = app;
+
