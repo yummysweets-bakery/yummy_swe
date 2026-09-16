@@ -4112,7 +4112,6 @@ html, body {
         <div class="hero__visual">
           <div class="hero__card">
             <img src="https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=900&auto=format&fit=crop&q=80" alt="Artisan celebration cake" class="hero__img" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';" />
-            <span class="hero__badge-fresh" data-i18n="badgeFresh">Fresh today from 6 AM</span>
             <div class="hero__cake-emoji" aria-label="Celebration Cake Illustration" style="display:none;">🎂</div>
           </div>
 
@@ -6985,6 +6984,19 @@ const app = {
     const storyTextEl = document.getElementById('storyText');
     if (storyTextEl) storyTextEl.textContent = story;
 
+    const storyEyebrow = isKu ? (c.aboutUs.eyebrowKu || c.aboutUs.eyebrowEn || 'کەلەپووری ئێمە') : (c.aboutUs.eyebrowEn || 'Our Heritage');
+    const storyTitle = isKu ? (c.aboutUs.titleKu || c.aboutUs.titleEn || 'بە ئارامگرتن ئامادە کراوە، بە خۆشەویستی برژاوە') : (c.aboutUs.titleEn || 'Crafted with patience, baked with devotion');
+    const storyImageUrl = c.aboutUs.imageUrl || 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=900&auto=format&fit=crop&q=80';
+
+    const eyebrowEl = document.querySelector('[data-i18n="storyEyebrow"]');
+    if (eyebrowEl) eyebrowEl.textContent = storyEyebrow;
+    
+    const titleEl = document.querySelector('[data-i18n="storyTitle"]');
+    if (titleEl) titleEl.textContent = storyTitle;
+    
+    const imgEl = document.querySelector('.story__img');
+    if (imgEl) imgEl.src = storyImageUrl;
+
     // Contact Cards
     const infoAddress = document.getElementById('infoAddress');
     if (infoAddress) infoAddress.textContent = address;
@@ -8183,11 +8195,35 @@ const app = {
           <h4 style="font-family:var(--font-serif);margin-bottom:16px;">Our Story & Heritage</h4>
           <form onsubmit="app.saveAboutSettings(event)">
             <div class="form-group">
-              <label class="form-label">Our Story (English)</label>
+              <label class="form-label">Image URL</label>
+              <input type="text" id="cfgAboutImage" class="form-input" value="${c.aboutUs.imageUrl || 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=900&auto=format&fit=crop&q=80'}" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Eyebrow / Subtitle (EN)</label>
+                <input type="text" id="cfgAboutEyebrowEn" class="form-input" value="${c.aboutUs.eyebrowEn || 'Our Heritage'}" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Eyebrow / Subtitle (KU)</label>
+                <input type="text" id="cfgAboutEyebrowKu" class="form-input" value="${c.aboutUs.eyebrowKu || 'کەلەپووری ئێمە'}" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Main Title (EN)</label>
+                <input type="text" id="cfgAboutTitleEn" class="form-input" value="${c.aboutUs.titleEn || 'Crafted with patience, baked with devotion'}" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Main Title (KU)</label>
+                <input type="text" id="cfgAboutTitleKu" class="form-input" value="${c.aboutUs.titleKu || 'بە ئارامگرتن ئامادە کراوە، بە خۆشەویستی برژاوە'}" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Our Story Text (English)</label>
               <textarea id="cfgAboutEn" class="form-textarea" rows="5">${c.aboutUs.en}</textarea>
             </div>
             <div class="form-group">
-              <label class="form-label">Our Story (Kurdish)</label>
+              <label class="form-label">Our Story Text (Kurdish)</label>
               <textarea id="cfgAboutKu" class="form-textarea" rows="5">${c.aboutUs.ku || ''}</textarea>
             </div>
             <button type="submit" class="btn btn--primary">Save Changes</button>
@@ -9694,6 +9730,11 @@ const app = {
     e.preventDefault();
     this.config.aboutUs.en = document.getElementById('cfgAboutEn').value.trim();
     this.config.aboutUs.ku = document.getElementById('cfgAboutKu').value.trim();
+    this.config.aboutUs.imageUrl = document.getElementById('cfgAboutImage').value.trim();
+    this.config.aboutUs.eyebrowEn = document.getElementById('cfgAboutEyebrowEn').value.trim();
+    this.config.aboutUs.eyebrowKu = document.getElementById('cfgAboutEyebrowKu').value.trim();
+    this.config.aboutUs.titleEn = document.getElementById('cfgAboutTitleEn').value.trim();
+    this.config.aboutUs.titleKu = document.getElementById('cfgAboutTitleKu').value.trim();
 
     this.saveConfig();
     this.renderBranding();
