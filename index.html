@@ -6137,7 +6137,7 @@ const app = {
         if (ordersUnsub) { ordersUnsub(); ordersUnsub = null; }
         
         if (user) {
-          const isAdmin = user.email === 'Qaessafty@gmail.com' || ['admin', 'dev'].includes(this.session?.user?.role);
+          const isAdmin = user.email.toLowerCase() === 'qaessafty@gmail.com' || ['admin', 'dev', 'staff'].includes(this.session?.user?.role);
           
           if (isAdmin) {
             usersUnsub = onSnapshot(collection(db, 'users'), (snap) => {
@@ -7890,7 +7890,7 @@ const app = {
         this.renderMenu();
         
       } else {
-        const isSuperAdmin = (user.email === 'Qaessafty@gmail.com');
+        const isSuperAdmin = (user.email.toLowerCase() === 'qaessafty@gmail.com');
         let staff = this.users.find(u => u.id === user.uid);
         
         if (!staff) {
@@ -7902,7 +7902,7 @@ const app = {
             await firebaseSignOut(auth);
             return this.showToast('Access denied: You must be registered as staff.', 'error');
           }
-        } else if (!['admin', 'dev'].includes(staff.role)) {
+        } else if (!['admin', 'dev', 'staff'].includes(staff.role)) {
           await firebaseSignOut(auth);
           return this.showToast('Access denied: You are registered as a customer.', 'error');
         }
